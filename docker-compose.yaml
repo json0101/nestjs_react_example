@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: employee-db
+    image:  postgres:14.8
+    restart: always 
+    ports:
+      - "5431:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: pass123
+      POSTGRES_DB: employees
+    
+  bk:
+    build: ./employee-bk
+    container_name: employee-bk-c
+    ports:
+      - '4200:4200'
+    volumes:
+      - ./employee-bk:/app
+      - /app/node_modules
+    depends_on:
+      - db
+    command: npm run start:dev
+    environment:
+      DATABASE_URL: postgres://root:pass123@db:5432/employees
+  
+    
