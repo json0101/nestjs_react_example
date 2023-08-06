@@ -7,28 +7,8 @@ import { UpdateDeparmentDto } from './dto/update-deparment.dto';
 export class DeparmentController {
   constructor(private readonly deparmentService: DeparmentService) {}
 
-  @Post()
-  create(@Body() createDeparmentDto: CreateDeparmentDto) {
-    return this.deparmentService.create(createDeparmentDto);
-  }
-
   @Get()
   findAll() {
     return this.deparmentService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.deparmentService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDeparmentDto: UpdateDeparmentDto) {
-    return this.deparmentService.update(+id, updateDeparmentDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.deparmentService.remove(+id);
   }
 }

@@ -1,11 +1,11 @@
 import BaseEntity from "src/common/entities/base.entity";
 import { Employee } from "src/human-resources/employee/entities/employee.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('deparments')
 export class Deparment extends BaseEntity {
 
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     deparment_id: number;
 
     @Column()

@@ -1,10 +1,10 @@
 import BaseEntity from "src/common/entities/base.entity";
 import { Deparment } from "src/human-resources/deparment/entities/deparment.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('employees')
 export class Employee extends BaseEntity {
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     employee_id: number;
 
     @Column()

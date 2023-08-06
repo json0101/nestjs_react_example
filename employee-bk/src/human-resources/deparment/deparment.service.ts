@@ -1,26 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDeparmentDto } from './dto/create-deparment.dto';
 import { UpdateDeparmentDto } from './dto/update-deparment.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Deparment } from './entities/deparment.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class DeparmentService {
-  create(createDeparmentDto: CreateDeparmentDto) {
-    return 'This action adds a new deparment';
-  }
+
+  constructor(
+    @InjectRepository(Deparment)
+    private readonly deparmentRepository: Repository<Deparment>,
+  ) {}
 
   findAll() {
-    return `This action returns all deparment`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} deparment`;
-  }
-
-  update(id: number, updateDeparmentDto: UpdateDeparmentDto) {
-    return `This action updates a #${id} deparment`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} deparment`;
+    return this.deparmentRepository.find({
+      select: {
+        deparment_id: true,
+        description: true,
+      },
+      where: {
+        active: 1,
+      }
+    })
   }
 }
