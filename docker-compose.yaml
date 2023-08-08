@@ -25,5 +25,16 @@ services:
     command: npm run start:dev
     environment:
       DATABASE_URL: postgres://root:pass123@db:5432/employees
+
+  ft:
+    build: ./employee-ft
+    container_name: employee-ft-c
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./employee-ft:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true
   
     
