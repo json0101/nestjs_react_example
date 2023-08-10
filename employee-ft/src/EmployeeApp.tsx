@@ -1,12 +1,14 @@
 import React from 'react';
-import { Button, PaletteOptions, createTheme } from '@mui/material';
+import { Button, PaletteOptions, ThemeProvider, createTheme } from '@mui/material';
+import Layout from './layout/Layout.component';
+
 
 function EmployeeApp() {
   const theme = createTheme({
     palette: {
         primary: {
             main: '#A22B2A',
-        },
+        },//#D85624
         secondary: {
             main: '#D9D9D6',
         },
@@ -27,9 +29,9 @@ function EmployeeApp() {
 });
 
   return (
-    <Button size="large" color="primary" variant="contained">
-      Click Me
-    </Button>
+    <ThemeProvider theme={theme}>
+      <Layout/>
+    </ThemeProvider>
   );
 }
 

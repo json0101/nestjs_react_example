@@ -26,15 +26,17 @@ services:
     environment:
       DATABASE_URL: postgres://root:pass123@db:5432/employees
 
-  ft:
-    build: ./employee-ft
-    container_name: employee-ft-c
-    ports:
-      - '3000:3000'
-    volumes:
-      - ./employee-ft:/app
-      - /app/node_modules
-    stdin_open: true
-    tty: true
+  # ft:
+  #   build: ./employee-ft
+  #   environment:
+  #     WATCHPACK_POLLING : "true"
+  #   container_name: employee-ft-c
+  #   ports:
+  #     - '6200:3000'
+  #   volumes:
+  #     - ./employee-ft:/app
+  #     - /app/node_modules
+  #   stdin_open: true
+  #   tty: true
   
     
