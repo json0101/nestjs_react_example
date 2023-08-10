@@ -12,8 +12,6 @@ import React from "react";
 // import RoleMenu from "./security/RoleMenu";
 // import { useAppSelector } from "../../redux/hooks";
 
-
-
 export default function ListMenu({ open:openDrawer }: any) {
     const [openShipment, setOpenShipment] = useState(true);
     // const { roles } = useAppSelector(selectAuth);
@@ -27,7 +25,7 @@ export default function ListMenu({ open:openDrawer }: any) {
         <>
             <List>
                 <ListItem key={"employee"} disablePadding sx={{ display: 'block' }}>
-                    <Link to={'employee-list'} 
+                    <Link to={'employee-list'}
                         className='MuiMenuItem-root'
                         style={{
                             color: 'inherit',
