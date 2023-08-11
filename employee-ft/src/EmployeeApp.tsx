@@ -1,14 +1,15 @@
 import React from 'react';
 import { Button, PaletteOptions, ThemeProvider, createTheme } from '@mui/material';
 import Layout from './layout/Layout.component';
+import { ToastContainer } from 'react-toastify';
 
 
 function EmployeeApp() {
   const theme = createTheme({
     palette: {
         primary: {
-            main: '#A22B2A',
-        },//#D85624
+            main: '#D85624',
+        },
         secondary: {
             main: '#D9D9D6',
         },

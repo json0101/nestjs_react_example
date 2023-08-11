@@ -6,6 +6,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import EmployeeListScreen from './employee/EmployeeList.screen';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -28,6 +30,7 @@ const router = createBrowserRouter([
 root.render(
   <LocalizationProvider dateAdapter={AdapterLuxon} adapterLocale="us">
     <RouterProvider router={router}/>
+    <ToastContainer />
   </LocalizationProvider>
   
 );
