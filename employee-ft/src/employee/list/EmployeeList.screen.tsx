@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { EmployeeDto } from "./interface/employee.dto"
-import Employee from "./Employee.component";
-import { getEmployees } from "./Employee.api";
+import { EmployeeDto } from "../interface/employee.dto"
+import { getEmployees } from "../Employee.api";
 import { Grid } from "@mui/material";
-import Loading from "../commons/components/Loading.component";
+import Loading from "../../commons/components/Loading.component";
 import { toast } from "react-toastify";
+import EmployeeResume from "./EmployeeResume.component";
 
 export default function EmployeeListScreen() {
     const [employees, setEmployees] = useState<EmployeeDto[]>([]);
@@ -39,7 +39,7 @@ export default function EmployeeListScreen() {
                         employees.map(e => {
                             return (
                                 <Grid item key={e.employee_id} xs={24}>
-                                    <Employee  employee={e}></Employee>
+                                    <EmployeeResume employee={e}/>
                                 </Grid>
                             )
                         })

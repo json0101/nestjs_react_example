@@ -1,15 +1,18 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from "@mui/material";
-import { EmployeeDto } from "./interface/employee.dto";
-import { DateTime } from "luxon";
-import avatar from "../assets/image/avatar_male.jpg";
 import { useState } from "react";
+import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from "@mui/material";
+import { EmployeeDto } from "../interface/employee.dto";
+import { DateTime } from "luxon";
+import avatar from "../../assets/image/avatar_male.jpg";
+import { useNavigate } from "react-router-dom";
 
 interface ParamsEmployee {
     employee: EmployeeDto;
 }
 
-export default function Employee({employee}: ParamsEmployee)  {
+export default function EmployeeResume({employee}: ParamsEmployee)  {
     const [openMessage, setOpenMessage] = useState<boolean>(false);
+    const navigate = useNavigate();
+
     const handleClose = () => {
         setOpenMessage(false);
     };
@@ -49,7 +52,8 @@ export default function Employee({employee}: ParamsEmployee)  {
                             <Button 
                                 size="small" 
                                 onClick={() => {
-                                    
+                                    console.log('id', employee.employee_id);
+                                    navigate('/employee/'+employee.employee_id);
                                 }}>
                                 View Details
                             </Button>
@@ -57,7 +61,6 @@ export default function Employee({employee}: ParamsEmployee)  {
                     </Grid>
                 </Grid>
             </Card>
-            
         </>
     );
 } 

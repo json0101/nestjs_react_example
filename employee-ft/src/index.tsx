@@ -5,9 +5,10 @@ import EmployeeApp from './EmployeeApp';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import EmployeeListScreen from './employee/EmployeeList.screen';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import EmployeeListScreen from './employee/list/EmployeeList.screen';
+import EmployeeDetailScreen from './employee/detail/EmployeeDetail.screen';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,13 +16,17 @@ const root = ReactDOM.createRoot(
 
 const router = createBrowserRouter([
   {
-    path: "",
+    path: '',
     element: <EmployeeApp/>,
     errorElement: <div>Error</div>,
     children: [
       {
         path: '/employee-list',
         element: <EmployeeListScreen/>,
+      },
+      {
+        path: '/employee/:employee_id',
+        element: <EmployeeDetailScreen/>,
       },
     ],
   },
