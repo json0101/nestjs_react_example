@@ -5,13 +5,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Employee } from './entities/employee.entity';
 import { Repository } from 'typeorm';
 import EmployeeResume from './dto/employee-resume.dto';
+import { DeparmentService } from '../deparment/deparment.service';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class EmployeeService {
   
   constructor(
     @InjectRepository(Employee)
-    private readonly employeeRepository: Repository<Employee>
+    private readonly employeeRepository: Repository<Employee>,
+    private readonly deparmentService: DeparmentService,
   ) { }
 
   async create(createEmployeeDto: CreateEmployeeDto) {
@@ -60,24 +63,39 @@ export class EmployeeService {
     return employees;
   }
 
-  async update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
+  async update(id: number, updateEmployeeDto: UpdateEmployeeDto) : Promise<EmployeeResume | null> {
     const employee = await this.employeeRepository.findOne({
       where: {
         employee_id: id,
-      }
+      },
+      relations: ['deparment'],
     });
 
+    const date = DateTime.now();
+    console.log(date.toJSDate());
     if (!employee)
       throw new NotFoundException();
 
-    employee.first_name = updateEmployeeDto.first_name;
-    employee.last_name = updateEmployeeDto.last_name;
-    employee.hire_date = updateEmployeeDto.hire_date;
-    employee.deparment_id = updateEmployeeDto.deparment_id;
-    employee.phone = updateEmployeeDto.phone;
-    employee.address = updateEmployeeDto.address;
+    const deparment = await this.deparmentService.findOne(updateEmployeeDto.deparment_id);
 
-    return this.employeeRepository.save(employee);
+    if (!deparment) {
+      throw new NotFoundException("Deparment not found");
+    }
+
+    employee.deparment = deparment;
+
+    await this.employeeRepository.save(employee);
+    const employee_updated_resume = {
+      employee_id: employee.employee_id,
+      first_name: employee.first_name,
+      last_name: employee.last_name,
+      hire_date: employee.hire_date,
+      deparment: employee.deparment.description,
+      phone: employee.phone,
+      address: employee.address
+    } as EmployeeResume;
+    return employee_updated_resume;
+    
   }
 
   async remove(id: number) {

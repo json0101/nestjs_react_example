@@ -24,4 +24,17 @@ export class DeparmentService {
       }
     })
   }
+
+  findOne(id: number) {
+    return this.deparmentRepository.findOne({
+      select: {
+        deparment_id: true,
+        description: true,
+      },
+      where: {
+        active: 1,
+        deparment_id: id,
+      }
+    })
+  }
 }
