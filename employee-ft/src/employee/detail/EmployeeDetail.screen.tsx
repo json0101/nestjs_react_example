@@ -1,24 +1,20 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from "@mui/material";
+import { Autocomplete, Button, Card, CardActions, CardContent, CardMedia, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { DateTime } from "luxon";
 import { useCallback, useEffect, useState } from "react";
-import { EmployeeDto } from "../interface/employee.dto";
+import { EmployeeDto } from "../dto/employee.dto";
 import avatar_male from "../../assets/image/avatar_male.jpg";
 import { getEmployeeByID } from "../Employee.api";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { DeparmentDto } from "../../deparment/dto/deparment.dto";
+import { getDeparments } from "../../deparment/Deparment.api";
+import SelectComponent from "../../commons/components/Select.component";
+import EmployeeUpdateForm from "./EmployeeUpdate.form";
 
 export default function EmployeeDetailScreen() {
     const [employee, setEmployee] = useState<EmployeeDto | null>(null);
+    
     const { employee_id } = useParams();
-
-    const getLaborOld = useCallback(() => {
-        if (!employee) {
-            return "";
-        }
-        const laborold = DateTime.now().diff(DateTime.fromISO(employee.hire_date), ['years', 'month', 'days']);
-
-        return `${laborold.years}y - ${laborold.months}m - ${laborold.days.toFixed(0)}d`;
-    }, [employee]);
 
     const getEmployee = useCallback(async () => {
         if (!employee_id) {
@@ -34,6 +30,15 @@ export default function EmployeeDetailScreen() {
         }
 
     }, []);
+
+    const getLaborOld = useCallback(() => {
+        if (!employee) {
+            return "";
+        }
+        const laborold = DateTime.now().diff(DateTime.fromISO(employee.hire_date), ['years', 'month', 'days']);
+
+        return `${laborold.years}y - ${laborold.months}m - ${laborold.days.toFixed(0)}d`;
+    }, [employee]);
 
     useEffect(() => {
         getEmployee();
@@ -62,22 +67,18 @@ export default function EmployeeDetailScreen() {
 
                                         <Grid container spacing={10}>
                                             <Grid item>
-                                                    <Typography gutterBottom variant="body2" component="div">
-                                                        Employee Id: {employee.employee_id}
-                                                    </Typography>
-                                                    <Typography gutterBottom variant="body2" component="div">
-                                                        Deparment: {employee.deparment}
-                                                    </Typography>
-                                                    <Typography gutterBottom variant="body2" component="div">
-                                                        Telephone: {employee.phone}
-                                                    </Typography>
-                                                    <Typography gutterBottom variant="body2" component="div">
-                                                        Address: {employee.phone}
-                                                    </Typography>
-                                                    <Typography variant="body2" color="text.secondary">
-                                                        Hire Date
-                                                    </Typography>
-
+                                                <Typography gutterBottom variant="body2" component="div">
+                                                    Employee Id: {employee.employee_id}
+                                                </Typography>
+                                                <Typography gutterBottom variant="body2" component="div">
+                                                    Deparment: {employee.deparment}
+                                                </Typography>
+                                                <Typography gutterBottom variant="body2" component="div">
+                                                    Telephone: {employee.phone}
+                                                </Typography>
+                                                <Typography gutterBottom variant="body2" component="div">
+                                                    Address: {employee.phone}
+                                                </Typography>
                                             </Grid>
                                             <Grid item>
                                                 <Typography gutterBottom variant="body2" component="div">
@@ -94,21 +95,12 @@ export default function EmployeeDetailScreen() {
                                 </Grid>
                             </Grid>
 
-                            <Grid item>
-                                <CardActions>
-                                    <Button
-                                        size="small"
-                                        onClick={() => {
-                                            console.log("id", employee.employee_id);
-
-                                        }}>
-                                        View Details
-                                    </Button>
-                                </CardActions>
+                            <Grid item xs={24}>
+                                <EmployeeUpdateForm employee={employee} setEmployee={setEmployee}/>
                             </Grid>
                         </Grid>
                     </Card>
-                    : <Typography>We couldn't download employee</Typography>
+                    : <Typography>I couldn't get the employee</Typography>
             }
 
         </>

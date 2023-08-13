@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from "@mui/material";
-import { EmployeeDto } from "../interface/employee.dto";
+import { EmployeeDto } from "../dto/employee.dto";
 import { DateTime } from "luxon";
 import avatar from "../../assets/image/avatar_male.jpg";
 import { useNavigate } from "react-router-dom";

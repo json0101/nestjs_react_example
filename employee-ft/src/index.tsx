@@ -33,7 +33,7 @@ const router = createBrowserRouter([
 ]);
 
 root.render(
-  <LocalizationProvider dateAdapter={AdapterLuxon} adapterLocale="us">
+  <LocalizationProvider dateAdapter={AdapterLuxon} adapterLocale='us'>
     <RouterProvider router={router}/>
     <ToastContainer />
   </LocalizationProvider>

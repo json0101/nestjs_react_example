@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { EmployeeDto } from "../interface/employee.dto"
+import { EmployeeDto } from "../dto/employee.dto"
 import { getEmployees } from "../Employee.api";
 import { Grid } from "@mui/material";
 import Loading from "../../commons/components/Loading.component";
