@@ -1,6 +1,6 @@
-import api from "../commons/axios";
-import EmployeeUpdateDto from "./dto/employee-update.dto";
-import { EmployeeDto } from "./dto/employee.dto";
+import api from "../../commons/axios";
+import EmployeeUpdateDto from "../dto/employee-update.dto";
+import { EmployeeDto } from "../dto/employee.dto";
 
 export const updateEmployee = async(employee_id: number, employee_updated: EmployeeUpdateDto):Promise<EmployeeDto>  => {
     

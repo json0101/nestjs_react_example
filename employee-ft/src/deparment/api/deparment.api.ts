@@ -1,5 +1,5 @@
-import api from "../commons/axios";
-import { DeparmentDto } from "./dto/deparment.dto";
+import api from "../../commons/axios";
+import { DeparmentDto } from "../dto/deparment.dto";
 
 export const getDeparments = async():Promise<DeparmentDto[]>  => {
     

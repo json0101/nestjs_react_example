@@ -1,13 +1,11 @@
 import { Autocomplete, Button, FormControl, TextField } from "@mui/material";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { DeparmentDto } from "../../deparment/dto/deparment.dto";
-import { getDeparments } from "../../deparment/Deparment.api";
-import { updateEmployee } from "../Employee.api";
-import { useParams } from "react-router-dom";
-import { EmployeeDto } from "../dto/employee.dto";
+import { updateEmployee } from "../api/employee.api";
 import EmployeeUpdateDto from "../dto/employee-update.dto";
 import { toast } from "react-toastify";
 import { EmployeeDetailContext } from "./EmployeeDetail.screen";
+import { getDeparments } from "../../deparment/api/deparment.api";
 
 
 export default function EmployeeUpdateForm() {
@@ -24,7 +22,7 @@ export default function EmployeeUpdateForm() {
             const deparments = await getDeparments();
             setDeparments(deparments);
 
-            const deparment_employee = deparments.find(d => d.description === employee.deparment);
+            const deparment_employee = deparments.find(d => d.deparment_id === employee.deparment_id);
             
             if (deparment_employee) {
                 setDeparmentSelected(deparment_employee)
@@ -32,7 +30,7 @@ export default function EmployeeUpdateForm() {
         } catch (error) {
             console.log('Error', error);
         }
-    }, []);
+    }, [setDeparments, employee.deparment_id]);
 
     const updateEmployeeSubmit = useCallback(async (e: any) => {
         e.preventDefault();
@@ -60,11 +58,11 @@ export default function EmployeeUpdateForm() {
         } catch (error) {
             console.log('Error', error);
         }
-    }, [deparmentSelected, employee.employee_id, setEmployee, setFireUpdateHistory]);
+    }, [deparmentSelected, employee, setEmployee, setFireUpdateHistory]);
 
     useEffect(() => {
         getDeparment();
-    }, []);
+    }, [getDeparment]);
     
     return (
         <>

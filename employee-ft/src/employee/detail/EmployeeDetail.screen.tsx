@@ -1,16 +1,12 @@
-import { Alert, Autocomplete, Button, Card, CardActions, CardContent, CardMedia, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Alert, Button, Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import { DateTime } from "luxon";
-import { Fragment, useCallback, useEffect, useState, useContext, createContext } from "react";
+import { Fragment, useCallback, useEffect, useState, createContext } from "react";
 import { EmployeeDto } from "../dto/employee.dto";
 import avatar_male from "../../assets/image/avatar_male.jpg";
-import { getEmployeeByID, updateEmployee } from "../Employee.api";
+import { getEmployeeByID, updateEmployee } from "../api/employee.api";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { DeparmentDto } from "../../deparment/dto/deparment.dto";
-import { getDeparments } from "../../deparment/Deparment.api";
-import SelectComponent from "../../commons/components/Select.component";
 import EmployeeUpdateForm from "./EmployeeUpdate.form";
-import EmployeeDeparmentHistoryDto from "../../employee-deparment-history/components/EmployeeDeparmentHistory.component";
 import EmployeeDeparmentHistory from "../../employee-deparment-history/components/EmployeeDeparmentHistory.component";
 import EmployeeUpdateDto from "../dto/employee-update.dto";
 import { getLaborOld } from "../../commons/functions/getLaborOdl";
@@ -38,14 +34,12 @@ export default function EmployeeDetailScreen() {
 
         try {
             const emplo = await getEmployeeByID(+employee_id);
-            
-            
             setEmployee(emplo);
         } catch (error) {
             console.log('Error', error);
         }
 
-    }, []);
+    }, [employee_id]);
 
     const updateStateEmployee = useCallback(async() => {
         if (!employee?.employee_id) {
@@ -70,7 +64,7 @@ export default function EmployeeDetailScreen() {
 
     useEffect(() => {
         getEmployee();
-    }, []);
+    }, [getEmployee]);
 
     return (
         <>
