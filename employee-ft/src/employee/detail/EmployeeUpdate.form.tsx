@@ -49,6 +49,7 @@ export default function EmployeeUpdateForm() {
 
         const update_employee = {
             deparment_id: deparmentSelected.deparment_id,
+            active: +employee.active,
         } as EmployeeUpdateDto;
 
         try {
@@ -88,6 +89,7 @@ export default function EmployeeUpdateForm() {
                     type="submit"
                     color="success"
                     variant="contained"
+                    disabled={employee.deparment_id === deparmentSelected?.deparment_id}
                     sx={{ mt: 3, mb: 2 }}
                 >
                     Update

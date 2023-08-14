@@ -17,7 +17,7 @@ function EmployeeApp() {
             main: '#2DBEC2'
         },
         error: {
-            main: '#852E2C'
+            main: '#e5110c'
         },
         success: {
             main: '#658D1B'

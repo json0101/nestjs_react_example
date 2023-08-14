@@ -1,9 +1,9 @@
-import { Autocomplete, Button, Card, CardActions, CardContent, CardMedia, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Alert, Autocomplete, Button, Card, CardActions, CardContent, CardMedia, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { DateTime } from "luxon";
 import { Fragment, useCallback, useEffect, useState, useContext, createContext } from "react";
 import { EmployeeDto } from "../dto/employee.dto";
 import avatar_male from "../../assets/image/avatar_male.jpg";
-import { getEmployeeByID } from "../Employee.api";
+import { getEmployeeByID, updateEmployee } from "../Employee.api";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { DeparmentDto } from "../../deparment/dto/deparment.dto";
@@ -12,6 +12,8 @@ import SelectComponent from "../../commons/components/Select.component";
 import EmployeeUpdateForm from "./EmployeeUpdate.form";
 import EmployeeDeparmentHistoryDto from "../../employee-deparment-history/components/EmployeeDeparmentHistory.component";
 import EmployeeDeparmentHistory from "../../employee-deparment-history/components/EmployeeDeparmentHistory.component";
+import EmployeeUpdateDto from "../dto/employee-update.dto";
+import { getLaborOld } from "../../commons/functions/getLaborOdl";
 
 export interface EmployeeDetailCtx {
     employee: EmployeeDto;
@@ -36,6 +38,8 @@ export default function EmployeeDetailScreen() {
 
         try {
             const emplo = await getEmployeeByID(+employee_id);
+            
+            
             setEmployee(emplo);
         } catch (error) {
             console.log('Error', error);
@@ -43,13 +47,25 @@ export default function EmployeeDetailScreen() {
 
     }, []);
 
-    const getLaborOld = useCallback(() => {
-        if (!employee) {
-            return "";
+    const updateStateEmployee = useCallback(async() => {
+        if (!employee?.employee_id) {
+            toast.error('Employee Id is required');
+            return;
         }
-        const laborold = DateTime.now().diff(DateTime.fromISO(employee.hire_date), ['years', 'month', 'days']);
 
-        return `${laborold.years}y - ${laborold.months}m - ${laborold.days.toFixed(0)}d`;
+        const state_to_save = +employee.active === 1 ? 0 : 1;
+
+        const update_employee = {
+            deparment_id: employee?.deparment_id,
+            active: state_to_save
+        } as EmployeeUpdateDto;
+
+        try {
+            const updated = await updateEmployee(employee.employee_id, update_employee);
+            setEmployee(updated);
+        } catch (error) {
+            console.log('Error', error);
+        }
     }, [employee]);
 
     useEffect(() => {
@@ -68,15 +84,28 @@ export default function EmployeeDetailScreen() {
                     employee !== null ?
                         <Fragment>
                             <Card>
-                                <Grid container >
-                                    <Grid container>
-                                        <Grid item>
+                                <Grid container>
+                                    <Grid container spacing={0}>
+                                        <Grid item padding={1}>
+                                            <Grid container direction={"column"}>
+                                                <Grid item>
                                             <CardMedia
                                                 component="img"
                                                 alt={employee.first_name + "_image"}
                                                 height="140"
                                                 image={avatar_male}
                                             />
+                                            </Grid>
+                                            <Grid item>
+                                            {
+                                                +employee.active === 0 ?
+                                                <Alert variant="filled" severity="error" >
+                                                    Inactive
+                                                </Alert>
+                                                : null
+                                            }
+                                            </Grid>
+                                            </Grid>
                                         </Grid>
                                         <Grid item>
                                             <CardContent>
@@ -105,8 +134,17 @@ export default function EmployeeDetailScreen() {
                                                         </Typography>
                                                         <Typography gutterBottom variant="body2" component="div">
                                                             {
-                                                                getLaborOld()
+                                                                getLaborOld(employee)
                                                             }
+                                                        </Typography>
+                                                        <Typography gutterBottom variant="body2" component="div">
+                                                            <Button
+                                                                variant="contained"
+                                                                color={+employee.active === 1 ? "error" : "success"}
+                                                                onClick={updateStateEmployee}
+                                                            >
+                                                                {+employee.active === 1 ? "INACTIVE" : 'ACTIVE'}
+                                                            </Button>
                                                         </Typography>
                                                     </Grid>
                                                 </Grid>
@@ -114,12 +152,12 @@ export default function EmployeeDetailScreen() {
                                         </Grid>
                                     </Grid>
 
-                                    <Grid item xs={24}>
+                                    <Grid item xs={24} padding={1}>
                                         <EmployeeUpdateForm />
                                     </Grid>
                                 </Grid>
                             </Card>
-                            <Grid container>
+                            <Grid container marginTop={2}>
                                 <Grid item xs={24}>
                                     <EmployeeDeparmentHistory/>
                                 </Grid>

@@ -45,11 +45,12 @@ export class EmployeeService {
         'hire_date',
         'phone',
         'address',
+        'dep.deparment_id as deparment_id',
         'dep.description as deparment',
+        'emp.active as active'
       ])
       .innerJoin('emp.deparment', 'dep')
       .addSelect('dep.description as deparment')
-      .where('emp.active = :active', { active: 1 })
       .getRawMany<EmployeeResume[]>();
       
     return employees;
@@ -58,7 +59,6 @@ export class EmployeeService {
   async findOne(id: number) {
     const employees = await this.employeeRepository.createQueryBuilder('emp')
       .innerJoin('emp.deparment', 'dep')
-      .where('emp.active = :active', { active: 1 })
       .andWhere('emp.employee_id = :employee_id', {employee_id: id})
       .select([
         'employee_id',
@@ -67,7 +67,9 @@ export class EmployeeService {
         'hire_date',
         'phone',
         'address',
+        'dep.deparment_id as deparment_id',
         'dep.description as deparment',
+        'emp.active as active'
       ])
       .getRawOne<EmployeeResume>();
       
@@ -83,7 +85,6 @@ export class EmployeeService {
     });
 
     const date = DateTime.now();
-    console.log(date.toJSDate());
     if (!employee)
       throw new NotFoundException();
 
@@ -94,6 +95,7 @@ export class EmployeeService {
     }
 
     employee.deparment = deparment;
+    employee.active = +updateEmployeeDto.active;
 
     await this.employeeRepository.save(employee);
     await this.saveDeparmentHistory(employee);
@@ -103,9 +105,11 @@ export class EmployeeService {
       first_name: employee.first_name,
       last_name: employee.last_name,
       hire_date: employee.hire_date,
+      deparment_id: employee.deparment.deparment_id,
       deparment: employee.deparment.description,
       phone: employee.phone,
-      address: employee.address
+      address: employee.address,
+      active: employee.active,
     } as EmployeeResume;
     return employee_updated_resume;
     

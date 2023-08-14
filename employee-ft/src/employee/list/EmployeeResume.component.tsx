@@ -4,6 +4,7 @@ import { EmployeeDto } from "../dto/employee.dto";
 import { DateTime } from "luxon";
 import avatar from "../../assets/image/avatar_male.jpg";
 import { useNavigate } from "react-router-dom";
+import { getLaborOld } from "../../commons/functions/getLaborOdl";
 
 interface ParamsEmployee {
     employee: EmployeeDto;
@@ -26,23 +27,22 @@ export default function EmployeeResume({employee}: ParamsEmployee)  {
                             <CardMedia
                                 component="img"
                                 alt={employee.first_name + "_image"}
-                                height="140"
+                                height="120"
                                 image={avatar}
                             />
                         </Grid>
                         <Grid item>
                             <CardContent>
                                 <Typography gutterBottom variant="h4" component="div">
-                                    {employee.first_name} {employee.last_name}
-                                </Typography>
-                                <Typography gutterBottom variant="h5" component="div">
-                                    {employee.deparment}
+                                    {employee.first_name} {employee.last_name} ({employee.deparment})
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    Hire Date
+                                    Hire Date: {DateTime.fromISO(employee.hire_date).toFormat("yyyy-MM-dd").toString()}
                                 </Typography>
-                                <Typography>
-                                    {DateTime.fromISO(employee.hire_date).toFormat("yyyy-MM-dd").toString()}
+                                <Typography gutterBottom variant="body2" component="div">
+                                    {
+                                        getLaborOld(employee)
+                                    }
                                 </Typography>
                             </CardContent>
                         </Grid>

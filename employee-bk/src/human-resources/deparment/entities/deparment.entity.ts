@@ -9,7 +9,9 @@ export class Deparment extends BaseEntity {
     @PrimaryGeneratedColumn()
     deparment_id: number;
 
-    @Column()
+    @Column({
+        unique: true,
+    })
     description: string;
 
     @OneToMany(() => Employee, (employee) => employee.deparment)

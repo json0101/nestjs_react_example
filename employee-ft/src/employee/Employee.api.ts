@@ -5,7 +5,8 @@ import { EmployeeDto } from "./dto/employee.dto";
 export const updateEmployee = async(employee_id: number, employee_updated: EmployeeUpdateDto):Promise<EmployeeDto>  => {
     
     const response = await api.patch<EmployeeDto>(`/employee/${employee_id}`, {
-       deparment_id: employee_updated.deparment_id
+       deparment_id: employee_updated.deparment_id,
+       active: employee_updated.active,
     });
     const employeeUpdated = response.data as EmployeeDto;
 
