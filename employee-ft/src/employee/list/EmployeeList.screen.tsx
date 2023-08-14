@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { EmployeeDto } from "../dto/employee.dto"
 import { getEmployees } from "../api/employee.api";
 import { Grid } from "@mui/material";
 import Loading from "../../commons/components/Loading.component";
-import { toast } from "react-toastify";
 import EmployeeResume from "./EmployeeResume.component";
 
 export default function EmployeeListScreen() {
@@ -26,7 +25,7 @@ export default function EmployeeListScreen() {
 
     useEffect(() => {
         getEmployeesList();
-    }, []);
+    }, [getEmployeesList]);
 
     return (
         

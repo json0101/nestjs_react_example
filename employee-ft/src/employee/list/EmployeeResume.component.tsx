@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import { EmployeeDto } from "../dto/employee.dto";
 import { DateTime } from "luxon";
@@ -11,12 +10,7 @@ interface ParamsEmployee {
 }
 
 export default function EmployeeResume({employee}: ParamsEmployee)  {
-    const [openMessage, setOpenMessage] = useState<boolean>(false);
     const navigate = useNavigate();
-
-    const handleClose = () => {
-        setOpenMessage(false);
-    };
     
     return (
         <>

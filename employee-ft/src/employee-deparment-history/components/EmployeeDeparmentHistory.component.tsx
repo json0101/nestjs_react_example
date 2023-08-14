@@ -27,7 +27,7 @@ export default function EmployeeDeparmentHistory() {
 
     useEffect(() => {
         updateGridData();
-    }, [fireUpdateHistory]);
+    }, [fireUpdateHistory, updateGridData]);
 
     const columns = useMemo<GridColDef[]>(
         () => [

@@ -1,6 +1,4 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './EmployeeApp';
 import EmployeeApp from './EmployeeApp';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
