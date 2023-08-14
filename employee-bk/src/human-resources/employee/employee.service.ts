@@ -7,6 +7,8 @@ import { Repository } from 'typeorm';
 import EmployeeResume from './dto/employee-resume.dto';
 import { DeparmentService } from '../deparment/deparment.service';
 import { DateTime } from 'luxon';
+import { EmployeeDeparmentHistoryService } from '../employee-deparment-history/employee-deparment-history.service';
+import { CreateEmployeeDeparmentHistoryDto } from '../employee-deparment-history/dto/create-employee-deparment-history.dto';
 
 @Injectable()
 export class EmployeeService {
@@ -15,6 +17,7 @@ export class EmployeeService {
     @InjectRepository(Employee)
     private readonly employeeRepository: Repository<Employee>,
     private readonly deparmentService: DeparmentService,
+    private readonly employeeDeparmentHistoryService: EmployeeDeparmentHistoryService,
   ) { }
 
   async create(createEmployeeDto: CreateEmployeeDto) {
@@ -22,7 +25,15 @@ export class EmployeeService {
       ...createEmployeeDto
     } as Employee;
 
-    return this.employeeRepository.save(employee);
+    const employee_saved = await this.employeeRepository.save(employee);
+    const employee_deparment_history_dto = {
+      employee_id: employee_saved.employee_id,
+      deparment_id: employee.deparment_id,
+      date: DateTime.now(),
+    } as CreateEmployeeDeparmentHistoryDto;
+
+    await this.employeeDeparmentHistoryService.create(employee_deparment_history_dto);
+    return employee_saved;
   }
 
   async findAll() {
@@ -85,6 +96,8 @@ export class EmployeeService {
     employee.deparment = deparment;
 
     await this.employeeRepository.save(employee);
+    await this.saveDeparmentHistory(employee);
+
     const employee_updated_resume = {
       employee_id: employee.employee_id,
       first_name: employee.first_name,
@@ -110,5 +123,15 @@ export class EmployeeService {
 
     await this.employeeRepository.remove(employee);
     return;
+  }
+
+  private async saveDeparmentHistory(employee: Employee) {
+    const employee_deparment_history_dto = {
+      employee_id: employee.employee_id,
+      deparment_id: employee.deparment_id,
+      date: DateTime.now(),
+    } as CreateEmployeeDeparmentHistoryDto;
+
+    return await this.employeeDeparmentHistoryService.create(employee_deparment_history_dto);
   }
 }

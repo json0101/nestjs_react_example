@@ -1,26 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEmployeeDeparmentHistoryDto } from './dto/create-employee-deparment-history.dto';
-import { UpdateEmployeeDeparmentHistoryDto } from './dto/update-employee-deparment-history.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { EmployeeDeparmentHistory } from './entities/employee-deparment-history.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class EmployeeDeparmentHistoryService {
-  create(createEmployeeDeparmentHistoryDto: CreateEmployeeDeparmentHistoryDto) {
-    return 'This action adds a new employeeDeparmentHistory';
+
+  constructor(@InjectRepository(EmployeeDeparmentHistory)
+  private readonly employeeDeparmentRepository: Repository<EmployeeDeparmentHistory>,) 
+  {}
+
+  async create(createEmployeeDeparmentHistoryDto: CreateEmployeeDeparmentHistoryDto) {
+    
+    const employee_deparment_history = {...createEmployeeDeparmentHistoryDto} as EmployeeDeparmentHistory;
+  
+    return await this.employeeDeparmentRepository.save(employee_deparment_history);
   }
 
-  findAll() {
-    return `This action returns all employeeDeparmentHistory`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} employeeDeparmentHistory`;
-  }
-
-  update(id: number, updateEmployeeDeparmentHistoryDto: UpdateEmployeeDeparmentHistoryDto) {
-    return `This action updates a #${id} employeeDeparmentHistory`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} employeeDeparmentHistory`;
+  findAll(employee_id: number) {
+    return this.employeeDeparmentRepository.find(
+      {
+        where: {
+          employee_id: employee_id,
+        }
+        ,relations: ['employee', 'deparment'],
+      },
+      
+    );
   }
 }

@@ -1,5 +1,5 @@
 import { Autocomplete, Button, FormControl, TextField } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { DeparmentDto } from "../../deparment/dto/deparment.dto";
 import { getDeparments } from "../../deparment/Deparment.api";
 import { updateEmployee } from "../Employee.api";
@@ -7,16 +7,13 @@ import { useParams } from "react-router-dom";
 import { EmployeeDto } from "../dto/employee.dto";
 import EmployeeUpdateDto from "../dto/employee-update.dto";
 import { toast } from "react-toastify";
+import { EmployeeDetailContext } from "./EmployeeDetail.screen";
 
-interface ParamEmployeeUpdateForm {
-    employee: EmployeeDto;
-    setEmployee: Function;
-}
 
-export default function EmployeeUpdateForm({employee, setEmployee}: ParamEmployeeUpdateForm) {
+export default function EmployeeUpdateForm() {
     const [deparments, setDeparments] = useState<DeparmentDto[]>([]);
     const [deparmentSelected, setDeparmentSelected] = useState<DeparmentDto | null>(null);
-    const { employee_id } = useParams();
+    const {employee, setEmployee, setFireUpdateHistory} = useContext(EmployeeDetailContext);
 
     const handleChangedDeparment = useCallback((deparment: DeparmentDto | null) => {
         setDeparmentSelected(deparment);
@@ -40,7 +37,7 @@ export default function EmployeeUpdateForm({employee, setEmployee}: ParamEmploye
     const updateEmployeeSubmit = useCallback(async (e: any) => {
         e.preventDefault();
 
-        if (!employee_id) {
+        if (!employee?.employee_id) {
             toast.error('Employee Id is required');
             return;
         }
@@ -55,12 +52,14 @@ export default function EmployeeUpdateForm({employee, setEmployee}: ParamEmploye
         } as EmployeeUpdateDto;
 
         try {
-            const updated = await updateEmployee(+employee_id, update_employee);
+            const updated = await updateEmployee(employee.employee_id, update_employee);
             setEmployee(updated);
+            setFireUpdateHistory((value: number) => { 
+            return value + 1});
         } catch (error) {
             console.log('Error', error);
         }
-    }, [deparmentSelected, employee_id, setEmployee]);
+    }, [deparmentSelected, employee.employee_id, setEmployee, setFireUpdateHistory]);
 
     useEffect(() => {
         getDeparment();

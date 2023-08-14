@@ -1,6 +1,7 @@
 import BaseEntity from "src/common/entities/base.entity";
 import { Deparment } from "src/human-resources/deparment/entities/deparment.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { EmployeeDeparmentHistory } from "src/human-resources/employee-deparment-history/entities/employee-deparment-history.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('employees')
 export class Employee extends BaseEntity {
@@ -28,4 +29,7 @@ export class Employee extends BaseEntity {
 
     @Column()
     address: string;
+
+    @OneToMany(() => EmployeeDeparmentHistory, (employee_deparment_history) => employee_deparment_history.employee)
+    employee_deparment_history: EmployeeDeparmentHistory[];
 }
