@@ -85,6 +85,7 @@ export class EmployeeService {
       relations: ['deparment'],
     });
 
+    const last_deparment = employee.deparment.deparment_id;
     const date = DateTime.now();
     if (!employee)
       throw new NotFoundException();
@@ -99,7 +100,11 @@ export class EmployeeService {
     employee.active = +updateEmployeeDto.active;
 
     await this.employeeRepository.save(employee);
-    await this.saveDeparmentHistory(employee);
+
+    // console.log('Deparment ID', last_deparment, 'Update Deparment', updateEmployeeDto.deparment_id);
+    
+    if (last_deparment !== updateEmployeeDto.deparment_id)
+      await this.saveDeparmentHistory(employee);
 
     const employee_updated_resume = {
       employee_id: employee.employee_id,

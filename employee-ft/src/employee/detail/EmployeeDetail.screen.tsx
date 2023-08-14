@@ -119,7 +119,7 @@ export default function EmployeeDetailScreen() {
                                                             Telephone: {employee.phone}
                                                         </Typography>
                                                         <Typography gutterBottom variant="body2" component="div">
-                                                            Address: {employee.phone}
+                                                            Address: {employee.address}
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item>
