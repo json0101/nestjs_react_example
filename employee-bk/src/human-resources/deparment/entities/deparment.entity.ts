@@ -14,6 +14,11 @@ export class Deparment extends BaseEntity {
     })
     description: string;
 
+    @Column({
+        nullable: true,
+    })
+    prueba: string;
+
     @OneToMany(() => Employee, (employee) => employee.deparment)
     employees: Employee[];
 

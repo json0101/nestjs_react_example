@@ -51,6 +51,7 @@ export class EmployeeService {
       ])
       .innerJoin('emp.deparment', 'dep')
       .addSelect('dep.description as deparment')
+      .orderBy('emp.last_name', 'ASC')
       .getRawMany<EmployeeResume[]>();
       
     return employees;

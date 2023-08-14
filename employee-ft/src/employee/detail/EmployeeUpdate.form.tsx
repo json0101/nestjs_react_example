@@ -55,6 +55,7 @@ export default function EmployeeUpdateForm() {
             setEmployee(updated);
             setFireUpdateHistory((value: number) => { 
             return value + 1});
+            toast.success('Employee has been updated');
         } catch (error) {
             console.log('Error', error);
         }

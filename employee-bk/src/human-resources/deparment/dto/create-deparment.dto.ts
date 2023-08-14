@@ -1,1 +1,3 @@
-export class CreateDeparmentDto {}
+export class CreateDeparmentDto {
+    description: string;
+}

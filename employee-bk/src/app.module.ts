@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DeparmentModule } from './human-resources/deparment/deparment.module';
 import { CommonModule } from './common/common.module';
 import { EmployeeDeparmentHistoryModule } from './human-resources/employee-deparment-history/employee-deparment-history.module';
+import { EmployeeService } from './human-resources/employee/employee.service';
 
 @Module({
   imports: [
