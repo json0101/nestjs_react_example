@@ -13,7 +13,6 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Outlet } from 'react-router-dom';
 import ListMenu from './menu/ListMenu.component';
-// import logo from '../assets/image/logo.png';
 
 const drawerWidth = 240;
 
@@ -115,13 +114,6 @@ export default function Layout() {
           >
             <MenuIcon />
           </IconButton>
-
-          {/* <IconButton>
-            <img alt='logo' src={logo} style={{
-              width: "204px",
-              height: "auto"
-            }}/>
-          </IconButton> */}
           <Typography variant="h6" noWrap component="div">
             
           </Typography>

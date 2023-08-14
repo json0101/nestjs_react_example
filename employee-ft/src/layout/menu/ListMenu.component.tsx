@@ -1,25 +1,9 @@
 import { Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 
 import GroupIcon from '@mui/icons-material/Group';
-import { Link, useNavigate } from "react-router-dom";
-import LogoutIcon from '@mui/icons-material/Logout';
-// import { useDispatch } from "react-redux";
-// import { logout, selectAuth } from "../../auth/auth.slice";
-import { useState } from "react";
-import React from "react";
-// import SecurityMenu from "./security/SecurityMenu";
-// import ShipmentMenu from "./shipment/ShipmentMenu";
-// import RoleMenu from "./security/RoleMenu";
-// import { useAppSelector } from "../../redux/hooks";
+import { Link } from "react-router-dom";
 
 export default function ListMenu({ open:openDrawer }: any) {
-    const [openShipment, setOpenShipment] = useState(true);
-    // const { roles } = useAppSelector(selectAuth);
-
-    const navigate = useNavigate();
-    const handleOpenShipment = () => {
-        setOpenShipment(!openShipment);
-    };
 
     return (
         <>

@@ -22,8 +22,6 @@ services:
     command: npm run start:dev
     environment:
       DATABASE_URL: postgres://root:pass123@db:5432/employees
-    volumes:
-      - ./employee-bk:/app
 
   ft:
     build: ./employee-ft
