@@ -6,7 +6,8 @@ docker compose up
 URL: http://localhost:6200/employee-list
 
 #This project will execute this script to insert some data in the database, just to get some default data.
-``` insert into deparments( description)
+``` 
+insert into deparments( description)
 values ('Finances'),
  ('IT'),
  ('Human Resource');
