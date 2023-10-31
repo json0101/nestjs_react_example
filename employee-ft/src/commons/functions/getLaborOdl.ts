@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
 import { EmployeeDto } from "../../employee/dto/employee.dto";
 
+
 export const getLaborOld = (employee: EmployeeDto) => {
     if (!employee) {
         return "";
